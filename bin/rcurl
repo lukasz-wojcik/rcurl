@@ -1,2 +1,15 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
+
+begin
+  require_relative '../lib/rcurl'
+  require 'awesome_print'
+  require 'oj'
+rescue LoadError => e
+  puts e.message
+  puts e.backtrace.join("\n")
+end
+
+
+Rcurl.call(ARGV)
+

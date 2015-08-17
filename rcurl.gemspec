@@ -20,7 +20,14 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
 
-
+  gem.add_dependency "awesome_print"
+  gem.add_dependency "oj"
+  gem.add_dependency "ox"
+  gem.add_dependency "xml-simple"
+  
   gem.add_development_dependency "bundler", "~> 1.7"
   gem.add_development_dependency "rake", "~> 10.0"
+  gem.add_development_dependency "minitest"
+  gem.add_development_dependency "minitest-reporters"
+  gem.add_development_dependency "pry"
 end
