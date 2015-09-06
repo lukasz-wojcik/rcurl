@@ -2,7 +2,7 @@
 
 Rcurl is a curl like(with limited number of features) tool with a pretty output.
 
-It also provides simple way to send RPC requests in XML or JSON format.
+It also provides simple way to send RPC requests in XML format.
  
 
 ## Installation
@@ -63,10 +63,9 @@ Json api
 ```
 
 #TODO:
-* Better exceptions handling
 * Implement SSL support
 * Implement JSON RPC
-* Implement  -i, -v, timeout flags
+* Implement -v, timeout flags
  
 
 

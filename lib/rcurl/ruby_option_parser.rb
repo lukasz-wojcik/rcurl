@@ -31,10 +31,17 @@ class RubyOptionParser
         options.body = body
       end
 
+      opts.on("-i","--include", "Include HTTP headers") do |b|
+        options.include_headers = true
+      end
+
       opts.on("-H HEADERS", "--headers HEADERS",
               "HTTP headers: -H 'Content-Type: value; X-Custom-Header: value' ") do |v|
         header_strings = v.split(";")
-        parsed_headers  = header_strings.inject({}) { |headers, str| name, value = str.split(":", 2); headers[name] = value.strip; headers}
+        parsed_headers  = header_strings.inject({}) do |headers, str|
+          name, value = str.split(":", 2)
+          headers[name] = value.strip; headers
+        end
         options.headers.merge!(parsed_headers)
       end
 

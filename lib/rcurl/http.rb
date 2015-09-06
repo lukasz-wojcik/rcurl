@@ -43,6 +43,7 @@ module Rcurl
 
     def parse_uri(uri)
       validate_uri!(uri)
+      uri = process_uri(uri)
       URI(uri)
     end
 
@@ -72,6 +73,10 @@ module Rcurl
       if uri.nil?
         raise ArgumentError, "missing keyword: uri"
       end
+    end
+
+    def process_uri(uri)
+      uri.match(/https|http/) ? uri : "http://#{uri}"
     end
   end
 end
