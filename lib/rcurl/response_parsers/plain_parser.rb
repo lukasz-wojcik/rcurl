@@ -4,9 +4,6 @@ module Rcurl
   module ResponseParsers
     class PlainParser
 
-      def initialize
-      end
-
       def call(response)
         case response.content_type
         when /json/ then parse_json(response.body)
