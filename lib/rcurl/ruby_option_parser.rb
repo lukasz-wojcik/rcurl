@@ -35,6 +35,23 @@ class RubyOptionParser
         options.include_headers = true
       end
 
+      opts.on("-k","--insecure", "Option allows to execute insecure SSL connections") do |b|
+        options.insecure = true
+      end
+
+      opts.on("--cert PATH", "Use specified certificate file") do |cert_path|
+        options.cert  = File.read(cert_path)
+      end
+
+      opts.on("--cacert PATH", "Use specified certificate(CA cert) file for peer verification") do |ca_path|
+        options.cacert = File.read(ca_path)
+        options.ca_path = ca_path
+      end
+
+      opts.on("--key PATH", "Use private key filename") do |key|
+        options.certkey = File.read(key)
+      end
+
       opts.on("-H HEADERS", "--headers HEADERS",
               "HTTP headers: -H 'Content-Type: value; X-Custom-Header: value' ") do |v|
         header_strings = v.split(";")

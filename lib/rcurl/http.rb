@@ -1,4 +1,6 @@
 require "net/http"
+require "net/https"
+
 module Rcurl
   module Http
 
@@ -7,8 +9,7 @@ module Rcurl
       request = create_request(uri, http_verb, body)
       apply_basic_auth!(request, options) if options.basic_auth
       set_headers!(request, headers)
-      set_ssl!(request, options)
-      perform_http_request(request, uri)
+      perform_request(request, uri)
     end
 
     def post(uri, body)
@@ -48,8 +49,15 @@ module Rcurl
     end
 
     def set_ssl!(request, options)
-      #TODO: implement!!!
-      return
+      request.use_ssl = true
+      if options.insecure
+        request.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      else
+        request.cert = OpenSSL::X509::Certificate.new(options.cert)
+        request.ca_file = options.ca_path
+        request.key = OpenSSL::PKey::RSA.new(options.certkey)
+        request.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      end
     end
 
     def create_request(uri, http_verb, body)
@@ -63,10 +71,24 @@ module Rcurl
       end
     end
 
+    def perform_request(request, uri)
+      if uri.scheme.match(/https/)
+        perform_https_request(request, uri)
+      else
+        perform_http_request(request, uri)
+      end
+    end
+
     def perform_http_request(request, uri)
       Net::HTTP.start(uri.host, uri.port) do |http|
         http.request(request)
       end
+    end
+
+    def perform_https_request(request, uri)
+      net_http_request = Net::HTTP.new(uri.host, uri.port)
+      set_ssl!(net_http_request, options)
+      net_http_request.request(request)
     end
 
     def validate_uri!(uri)
