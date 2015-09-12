@@ -8,11 +8,10 @@ module Rcurl
 
       def call(response)
         success, body = @parser.parseMethodResponse(response.body)
-        body
         if success
           body
         else
-          body.to_s
+          body.to_h
         end
       end
     end
