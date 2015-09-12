@@ -70,6 +70,11 @@ class RubyOptionParser
 
     opt_parser.parse!(args)
     return options
+  rescue OptionParser::InvalidOption => e
+    puts e.message
+    puts "Usage: rcurl URL [options]"
+    puts opt_parser.summarize
+    exit
   end
 
   def self.get_body(body)
